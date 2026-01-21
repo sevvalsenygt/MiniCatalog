@@ -6,18 +6,15 @@ export default function DetailScreen({ route, navigation }) {
   const { product } = route.params;
   const [fav, setFav] = useState(false);
 
-  // Favori durumunu senkronla
   const syncFav = useCallback(async () => {
     const result = await isFavorite(product.id);
     setFav(result);
   }, [product.id]);
 
-  // Ekran ilk açıldığında (ve product.id değişirse) çalışır
   useEffect(() => {
     syncFav();
   }, [syncFav]);
 
-  // Favori ekle / çıkar
   const onToggle = useCallback(async () => {
     await toggleFavorite(product.id);
     await syncFav();
